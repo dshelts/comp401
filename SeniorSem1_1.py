@@ -49,48 +49,85 @@ class DisjointSet():
 			print "Nothing left to union"
 	
 		else:
-			ranint1 = randint(0, self.size)
-			ranint2 = randint(0, self.size)
+			ranint1 = randint(0, self.size-1)
+			ranint2 = randint(0, self.size-1)
 			
 			while ranint1 == ranint2:
-				ranint2 = randint(0, self.size)
+				ranint2 = randint(0, self.size-1)
 			
+		
 			#get the representative
 			temp = self.head
 			for i in xrange(0, ranint1):
 				temp = temp.getNext()
 			rep = temp					#representative to add to
+			
 
 			temp = self.head
-			for i in xrange(0, randit2):
+			for i in xrange(0, ranint2):
 				temp = temp.getNext()
 			chain = temp					#get the chain to add to your representative
 			
 			
-			# removing  y from the left to right list
-			if chain.getNext() != None:
+			#y is the end of the list x, y set x to tail
+			if chain.getNext() == None:
+				x = chain.getPrev()
+				x.setNext(None)
+				self.tail = x
+				chain.setPrev(None)
+			#head of the list	
+			elif chain.getPrev() == None:
+				x = chain.getNext()
+				x.setPrev(None)
+				self.head = x
+				chain.setNext(None)
+			# removing  y from the  list
+			else:
 				z = chain.getNext()
 				x = chain.getPrev()
 
 				x.setNext(z)#x->z
 				z.setPrev(x)#x<-z
 				chain.setNext(None)
-				chain.setPrev(None)
-			#y is the end of the list x, y set x to tail
-			else:
-				x = chain.getPrev()
-				x.setNext(None)
-				self.tail = x
-				chain.setPrev(None)
+				chain.setPrev(None)	
 			self.size = self.size - 1 # disjoint set is one rep smaller
 			
 			#adding the chain to the end of the representative list
 			temp = rep
 			while temp.getLink() != None:
 				temp = temp.getLink()
+			
 			temp.setLink(chain)
 
+	def display(self):
+		x = self.head
+		for i in xrange(0, self.size):
+			displaySubset(x)
+			print "|"
+			x = x.getNext()
+		print "Done"
 
+	def find(self, value):
+		x = self.head
+		for i in xrange(0, self.size):
+			y = x
+			while y.getLink() != None:
+				if y.getValue() == value:
+					return x #returns the representative of the value
+				else:
+					y = y.getLink()
+			if y.getValue() == value:
+					return x #returns the representative of the value
+			else:
+				y = y.getLink()
+
+			x = x.getNext()
+
+		print value, " not found"
+
+		
+	def getSize(self):
+		return self.size
 
 
 
@@ -99,24 +136,36 @@ class DisjointSet():
 
 
 
-def makeSet(self, disjointset ,size):
+def makeSet(disjointset ,size):
 	for i in xrange(size):
 		rep = Element(i)
 		disjointset.append(rep)
 
-
-
-
-
+def displaySubset(set):
+	temp = set
+	while temp.getLink() != None:
+		print temp.getValue(),"->",
+		temp = temp.getLink()
+	print temp.getValue(), "->None"
+	
+def unionSet(set, number):
+	for i in xrange (number):
+		set.union()
 
 
 
 
 
 def main():
-	for i in xrange(0, 6):
-		print i
-	
+	disjnt = DisjointSet()
+	makeSet(disjnt, 100)
+	unionSet(disjnt, 75)
+	x = disjnt.find(3)
+	print "display Subset"
+	print displaySubset(x)
+	print "display"
+	print disjnt.display()
+
 if __name__ == '__main__':
 	main()
 
