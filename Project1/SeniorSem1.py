@@ -129,6 +129,18 @@ class DisjointSet():
 	def getSize(self):
 		return self.size
 
+	def writeToFile(self):
+		file = open('disjnt3.txt', 'w+')
+		x = self.head
+		for i in xrange(0, self.size):
+			y = x
+			# file.write(str(y.getValue())+', ')
+			while y.getLink() != None:
+				file.write(str(y.getValue()) + ', ')
+				y = y.getLink()
+			file.write(str(y.getValue())+ '\n')
+			x = x.getNext()
+		
 
 
 
@@ -146,7 +158,7 @@ def displaySubset(set):
 	while temp.getLink() != None:
 		print temp.getValue(),"->",
 		temp = temp.getLink()
-	print temp.getValue(), "->None"
+	print temp.getValue(), "-> None"
 	
 def unionSet(set, number):
 	for i in xrange (number):
@@ -159,12 +171,10 @@ def unionSet(set, number):
 def main():
 	disjnt = DisjointSet()
 	makeSet(disjnt, 100)
-	unionSet(disjnt, 75)
-	x = disjnt.find(3)
-	print "display Subset"
-	print displaySubset(x)
-	print "display"
-	print disjnt.display()
+	unionSet(disjnt, 80)
+	#print "display"
+	#disjnt.display()
+	disjnt.writeToFile()
 
 if __name__ == '__main__':
 	main()
