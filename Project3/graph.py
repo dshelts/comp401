@@ -15,14 +15,18 @@ class Graph():
 			self.edges.append(edge) #append an edge to a Node
 
 	class Edge():
-		def __init__(self, weight=None, connection = None):
+		def __init__(self, node=None,weight=None, connection = None):
+			self.node = node
 			self.weight = weight
 			self.connection = connection
+		def getNode(self):
+			return self.node
 		def getWeight(self):
 			return self.weight
+		
 		def getConnection(self):
 			return self.connection
-	
+		
 	def __init__(self,  size = None):
 		self.graph = []
 		self.size = size
@@ -40,7 +44,7 @@ class Graph():
 			strtNode = random.choice(self.graph)#node ->
 			destNode = random.choice(self.graph)#->node
 			destNode = destNode.getName()#str of node name
-			tempEdge = self.Edge(weight, destNode)
+			tempEdge = self.Edge(strtNode, weight, destNode)
 			strtNode.appendEdge(tempEdge)
 
 	def printGraph(self):
@@ -50,8 +54,8 @@ class Graph():
 			for edge in edges:
 				print "(",edge.getWeight(), edge.getConnection(),")",
 			print " ]"
-
-
+	def getGraph(self):
+		return self.graph
 
 
 			
